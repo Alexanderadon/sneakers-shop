@@ -32,7 +32,7 @@ function Header(props) {
         </li>
         <li>
           <Link to="/orders">
-            <img src="/img/union.svg" alt="union" />
+            <img src="/img/Union.svg" alt="union" />
           </Link>
         </li>
       </ul>
