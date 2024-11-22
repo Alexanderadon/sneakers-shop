@@ -1,3 +1,8 @@
+// imports
+@use "../css/blocks/header" as header;
+@use "../css/blocks/cards" as cards;
+@use "../css/blocks/drawer" as drawer;
+
 *,
 *:before,
 *:after {
@@ -57,7 +62,3 @@ ul {
   }
 
 
-// imports
-@import "../css/blocks/header.scss";
-@import "../css/blocks/cards.scss";
-@import "../css/blocks/drawer.scss";
