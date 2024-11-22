@@ -1,4 +1,4 @@
-import "./App.css";
+import "./css/index.scss";
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
