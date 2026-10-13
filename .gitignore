@@ -25,3 +25,5 @@ yarn-error.log*
 # служебное: скрипты сбора товаров и дампы страниц, рабочие папки Claude
 /tools
 /.claude
+.vercel
+.env*
