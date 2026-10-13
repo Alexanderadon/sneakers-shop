@@ -2,11 +2,19 @@ import React from "react";
 import ContentLoader from "react-content-loader";
 import AppContext from "../AppContext";
 
+const BRANDS = ["Nike", "Asics", "Puma", "Adidas", "Jordan", "New Balance", "Reebok"];
+
+function detectBrand(title = "") {
+  const t = title.toLowerCase();
+  return BRANDS.find((b) => t.includes(b.toLowerCase())) || "Sneakers";
+}
+
 function Card({
   id,
   imgUrl,
   title,
   price,
+  brand: brandProp,
   onFavorites,
   onPlus,
   favorited = true,
@@ -15,7 +23,8 @@ function Card({
   const { isItemAdded } = React.useContext(AppContext);
   const [favorites, setFavorites] = React.useState(favorited);
 
-  console.log(title, isItemAdded(id));
+  const added = isItemAdded(id);
+  const brand = brandProp || detectBrand(title);
 
   const onClickPlus = () => {
     onPlus({ id, imgUrl, title, price });
@@ -26,48 +35,58 @@ function Card({
     setFavorites(!favorites);
   };
 
-  React.useEffect(() => {
-    console.log("Переменная извинилась");
-  }, []);
-
   return (
-    <div className="card">
+    <div className={"card" + (added ? " card--added" : "")}>
       {loading ? (
         <ContentLoader
           speed={2}
           width={210}
-          height={220}
-          viewBox="0 0 210 220"
+          height={250}
+          viewBox="0 0 210 250"
           backgroundColor="#f3f3f3"
-          foregroundColor="#f2ece3"
+          foregroundColor="#ecebff"
         >
-          <rect x="10" y="10" rx="10" ry="10" width="150" height="90" />
-          <rect x="10" y="110" rx="3" ry="3" width="150" height="15" />
-          <rect x="10" y="135" rx="3" ry="3" width="90" height="15" />
-          <rect x="10" y="185" rx="3" ry="3" width="70" height="24" />
-          <rect x="128" y="178" rx="3" ry="3" width="32" height="32" />
+          <rect x="0" y="0" rx="18" ry="18" width="210" height="140" />
+          <rect x="0" y="155" rx="4" ry="4" width="160" height="14" />
+          <rect x="0" y="180" rx="4" ry="4" width="110" height="14" />
+          <rect x="0" y="215" rx="6" ry="6" width="90" height="22" />
+          <rect x="160" y="210" rx="14" ry="14" width="50" height="32" />
         </ContentLoader>
       ) : (
         <>
-          <div className="card__favorite" onClick={onFavorite}>
-            <img
-              src={favorites ? "/img/heard--opacity.svg" : "/img/heard.svg"}
-              alt="heard"
-            />
+          <div className="card__media">
+            <span className="card__brand">{brand}</span>
+            <button
+              type="button"
+              className={
+                "card__favorite" + (favorites ? "" : " card__favorite--active")
+              }
+              onClick={onFavorite}
+              aria-label="favorite"
+            >
+              <img
+                src={favorites ? "/img/heart-line.svg" : "/img/heart-fill.svg"}
+                alt="heart"
+              />
+            </button>
+            <img className="card__cross" src={imgUrl} alt={title} />
           </div>
-          <img className="card__cross" height={112} src={imgUrl} alt="img" />
           <div className="card__title">{title}</div>
           <div className="card--price">
             <div className="price__left">
-              <p>Цена:</p>
-              <span>{price} тг.</span>
+              <span>{price.toLocaleString("ru-RU")} ₸</span>
             </div>
-            <img
-              className="card--btn"
+            <button
+              type="button"
+              className={"card__cta" + (added ? " card__cta--added" : "")}
               onClick={onClickPlus}
-              src={isItemAdded(id) ? "/img/cheks.svg" : "/img/plus.svg"}
-              alt="img"
-            />
+              aria-label={added ? "В корзине" : "В корзину"}
+            >
+              <img
+                src={added ? "/img/check-white.svg" : "/img/plus-white.svg"}
+                alt="img"
+              />
+            </button>
           </div>
         </>
       )}

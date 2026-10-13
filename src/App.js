@@ -3,11 +3,14 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
+import ChatWidget from "./components/ChatWidget";
 import Home from "./pages/Home";
 import Drawer from "./components/Drawer";
 import Favorites from "./pages/Favorites";
 import Orders from "./pages/Orders";
 import AppContext from "./AppContext";
+import catalog from "./data/catalog";
 
 function App() {
   const [cartOpened, setCartOpened] = React.useState(false);
@@ -19,21 +22,22 @@ function App() {
 
   React.useEffect(() => {
     async function fechData() {
-      const setItemsResp = await axios.get(
-        "https://6399acbf16b0fdad774515a9.mockapi.io/items"
-      );
-      const setItemsCartResp = await axios.get(
-        "https://6399acbf16b0fdad774515a9.mockapi.io/cart"
-      );
-      const setFavoritesResp = await axios.get(
-        "https://6399acbf16b0fdad774515a9.mockapi.io/favorites"
-      );
+      // Items — локальный каталог (Nike / Asics / Puma, всё до 2024)
+      setItems(catalog);
+
+      // Корзина и избранное — best-effort с mockapi
+      try {
+        const [cartResp, favResp] = await Promise.all([
+          axios.get("https://6399acbf16b0fdad774515a9.mockapi.io/cart"),
+          axios.get("https://6399acbf16b0fdad774515a9.mockapi.io/favorites"),
+        ]);
+        setItemsCart(cartResp.data || []);
+        setIsFavorites(favResp.data || []);
+      } catch (_) {
+        // если API недоступен — просто пустые
+      }
 
       setIsLoading(false);
-
-      setItemsCart(setItemsCartResp.data);
-      setItems(setItemsResp.data);
-      setIsFavorites(setFavoritesResp.data);
     }
     fechData();
   }, []);
@@ -132,7 +136,9 @@ function App() {
           <Route path="/Favorites" element={<Favorites />} />
           <Route path="/Orders" element={<Orders />} />
         </Routes>
+        <Footer />
       </div>
+      <ChatWidget />
     </AppContext.Provider>
   );
 }

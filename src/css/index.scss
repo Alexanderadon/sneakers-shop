@@ -1,64 +1,50 @@
-// imports
 @use "../css/blocks/header" as header;
 @use "../css/blocks/cards" as cards;
 @use "../css/blocks/drawer" as drawer;
+@use "../css/blocks/hero" as hero;
+@use "../css/blocks/footer" as footer;
+@use "../css/blocks/shop" as shop;
+@use "../css/blocks/chat" as chat;
 
 *,
 *:before,
 *:after {
   box-sizing: border-box;
-  font-family: 'Inter';
+  font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
-html {
-  font-size: 62.5%;
-}
+html { font-size: 62.5%; }
 
 body {
   margin: 0;
+  min-height: 100vh;
   font-size: 1.4rem;
   font-family: 'Inter', 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: #E7F6FF;
+  color: #1f1f2e;
+  background: linear-gradient(180deg, #f7f8fa 0%, #eef0f4 100%);
+  background-attachment: fixed;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-h1,h2,h3,h4,h5,h6 {
-  margin: 0;
-}
-
-p {
-  margin: 0;
-}
-
-li {
-  margin: 0;
-}
-
-ul {
-  margin: 0;
-}
-
-//  svg:hover {
-//   fill: rgb(216, 49, 49);
-//   color: rgb(216, 49, 49);
-// }
+h1, h2, h3, h4, h5, h6, p, li, ul { margin: 0; }
 
 .wrapper {
   margin: 5rem auto;
+  overflow: clip;          /* clip вместо hidden — не блокирует position:sticky у потомков */
 
   max-width: 1080px;
   width: 100%;
 
-  background: #FFFFFF;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.04);
-  border-radius: 20px;
-  }
-
-
+  background: #ffffff;
+  box-shadow:
+    0 40px 80px rgba(31, 31, 46, 0.035),
+    0 14px 28px rgba(31, 31, 46, 0.018);
+  border-radius: 2rem;
+  border: .1rem solid #EEF0F6;
+}

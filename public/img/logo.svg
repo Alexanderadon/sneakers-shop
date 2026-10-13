@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+  <rect x="0" y="0" width="48" height="48" rx="7" fill="#1f1f2e"/>
+
+  <!-- верхняя белая полоса с надписью TRACK -->
+  <path d="M0 7 Q0 0 7 0 H41 Q48 0 48 7 V15 H0 Z" fill="#ffffff"/>
+  <text x="24" y="11.4" font-family="'Inter','Segoe UI',sans-serif" font-size="6.4" font-weight="800" fill="#1f1f2e" letter-spacing="1.6" text-anchor="middle">TRACK</text>
+
+  <!-- большая курсивная "23" -->
+  <text x="24" y="40" font-family="'Inter','Segoe UI',sans-serif" font-size="22" font-weight="900" font-style="italic" fill="#ffffff" text-anchor="middle" letter-spacing="-1">23</text>
+
+  <!-- угловые "дырочки" как у нагрудного номера -->
+  <circle cx="5"  cy="20" r="0.9" fill="#ffffff" fill-opacity="0.35"/>
+  <circle cx="43" cy="20" r="0.9" fill="#ffffff" fill-opacity="0.35"/>
+  <circle cx="5"  cy="43" r="0.9" fill="#ffffff" fill-opacity="0.35"/>
+  <circle cx="43" cy="43" r="0.9" fill="#ffffff" fill-opacity="0.35"/>
+</svg>

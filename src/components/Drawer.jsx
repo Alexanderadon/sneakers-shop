@@ -5,15 +5,42 @@ import { useCart } from "../hooks/useCart";
 
 function Drawer({ onCloseCard, onRemove, items = [] }) {
   const [isOrderComplete, setIsOrderComplete] = React.useState(false);
+  const [orderId, setOrderId] = React.useState(null);
   const { setItemsCart, totalPrice } = useCart();
 
   const onClickOrder = async () => {
     try {
+      const newOrder = {
+        id: Date.now(),
+        items,
+        total: totalPrice,
+        createdAt: new Date().toISOString(),
+      };
+      try {
+        const raw = localStorage.getItem("kicks-orders");
+        const prev = raw ? JSON.parse(raw) : [];
+        localStorage.setItem(
+          "kicks-orders",
+          JSON.stringify([...prev, newOrder])
+        );
+      } catch (_) {}
+
+      // best-effort: вычищаем корзину на mockapi
+      try {
+        await Promise.all(
+          items.map((it) =>
+            axios.delete(
+              `https://6399acbf16b0fdad774515a9.mockapi.io/cart/${it.id}`
+            )
+          )
+        );
+      } catch (_) {}
+
+      setOrderId(newOrder.id);
       setIsOrderComplete(true);
       setItemsCart([]);
-      await axios.put("/cart", []);
     } catch (error) {
-      alert("Api не позволяет, спасибо за заказ! :(");
+      alert("Не удалось оформить заказ, попробуйте ещё раз.");
     }
   };
   return (
@@ -66,10 +93,10 @@ function Drawer({ onCloseCard, onRemove, items = [] }) {
           </div>
         ) : (
           <Info
-            title={isOrderComplete ? "Заказ Оформлен" : "Корзина пустая"}
+            title={isOrderComplete ? "Заказ оформлен!" : "Корзина пустая"}
             description={
               isOrderComplete
-                ? "Ваш заказ #18 скоро будет передан курьерской доставке"
+                ? `Ваш заказ №${orderId} скоро будет передан курьерской доставке.`
                 : "Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."
             }
             image={isOrderComplete ? "/img/order.svg" : "/img/empty.svg"}
